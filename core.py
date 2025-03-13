@@ -1,5 +1,5 @@
-from database import sync_engine
-from sqlalchemy import text, insert, select
+from database import sync_engine, Base
+from sqlalchemy import text, insert, select, update
 from models import metadata, workers_table
 import json
 
@@ -36,6 +36,11 @@ def insert_via_function():
         ins_func.commit()
 
 
+def create_table_via_orm():
+    Base.metadata.create_all(sync_engine)
+    Base.metadata.drop_all(sync_engine)
+
+
 
 def show_result():
     with sync_engine.begin() as result:
@@ -47,3 +52,22 @@ def show_result():
         # data = [dict(zip(columns, row)) for row in res.fetchall()]
         # json_data = json.dumps(data, ensure_ascii=False, indent=4)
         # print(f'result = {json_data}')
+
+
+def select_workers():
+    
+    with sync_engine.connect() as conn:
+        query = select(workers_table)
+        result = conn.execute(query)
+        workers = result.all()
+        print(f"{workers}")
+
+
+def update_worker(worker_id : int = 2, new_username : str = "Misha"):
+    with sync_engine.connect() as conn:
+        # stmt = text("UPDATE workers SET username=:username WHERE id=:id")
+        # stmt = stmt.bindparams(username = new_username, id = worker_id)
+
+        stmt = update(workers_table).values(username = new_username).filter_by(id = worker_id)
+        conn.execute(stmt)
+        conn.commit()

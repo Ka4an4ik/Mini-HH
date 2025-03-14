@@ -36,9 +36,7 @@ def insert_via_function():
         ins_func.commit()
 
 
-def create_table_via_orm():
-    Base.metadata.create_all(sync_engine)
-    Base.metadata.drop_all(sync_engine)
+
 
 
 

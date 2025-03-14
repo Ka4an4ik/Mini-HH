@@ -2,9 +2,8 @@ from core import *
 from orm import *
 
 
-create_tables()
-
-insert_values()
+create_table_via_orm()
+# insert_values()
 
 # insert_via_function()
 
@@ -15,8 +14,13 @@ insert_values()
 
 # select_workers()
 
-select_data()
+# select_data()
+# update_worker()
+# select_data()
 
-update_worker()
+# create_table_via_orm()
 
-select_data()
+insert_values()
+insert_resumes()
+
+select_resumes()
